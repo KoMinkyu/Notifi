@@ -36,7 +36,7 @@ public class NotificationUtil {
     public NotificationUtil() { }
 
     public void showStandardNotification(Context context) {
-        NotificationCompat.Builder notification = createNotificationBuider(context,
+        NotificationCompat.Builder notification = createNotificationBuilder(context,
                 "Standard Notification", "This is just a standard notification!");
         showNotification(context, notification.build(), 0);
     }
@@ -57,21 +57,21 @@ public class NotificationUtil {
                         LABEL_ARCHIVE, archiveIntent)
                         .build();
 
-        NotificationCompat.Builder first = createNotificationBuider(
+        NotificationCompat.Builder first = createNotificationBuilder(
                 context, "First notification", "This is the first bundled notification");
         first.setGroupSummary(true).setGroup(KEY_NOTIFICATION_GROUP);
 
-        NotificationCompat.Builder second = createNotificationBuider(
+        NotificationCompat.Builder second = createNotificationBuilder(
                 context, "Second notification", "Here's the second one");
         second.setGroup(KEY_NOTIFICATION_GROUP);
 
-        NotificationCompat.Builder third = createNotificationBuider(
+        NotificationCompat.Builder third = createNotificationBuilder(
                 context, "Third notification", "And another for luck!");
         third.setGroup(KEY_NOTIFICATION_GROUP);
         third.addAction(replyAction);
         third.addAction(archiveAction);
 
-        NotificationCompat.Builder fourth = createNotificationBuider(
+        NotificationCompat.Builder fourth = createNotificationBuilder(
                 context, "Fourth notification", "This one sin't a part of our group");
         third.setGroup(KEY_NOTIFICATION_GROUP);
 
@@ -96,7 +96,7 @@ public class NotificationUtil {
                         LABEL_ARCHIVE, archiveIntent)
                         .build();
 
-        NotificationCompat.Builder notificationBuider = createNotificationBuider(
+        NotificationCompat.Builder notificationBuider = createNotificationBuilder(
                 context, "Heads up!", "This is a normal heads up notification");
         notificationBuider.setPriority(Notification.PRIORITY_HIGH).setVibrate(new long[0]);
         notificationBuider.addAction(replyAction);
@@ -167,7 +167,7 @@ public class NotificationUtil {
                         .build();
 
         NotificationCompat.Builder builder =
-                createNotificationBuider(context, "Remote input", "Try typing some text!");
+                createNotificationBuilder(context, "Remote input", "Try typing some text!");
         builder.addAction(replyAction);
         builder.addAction(archiveAction);
 
@@ -246,8 +246,8 @@ public class NotificationUtil {
     }
 
 
-    public NotificationCompat.Builder createNotificationBuider(Context context,
-                                                               String title, String message) {
+    public NotificationCompat.Builder createNotificationBuilder(Context context,
+                                                                String title, String message) {
         Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(),
                 R.drawable.me);
         return new NotificationCompat.Builder(context)
