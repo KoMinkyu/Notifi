@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 'android-N'
-    buildToolsVersion "24.0.0 rc1"
+    compileSdkVersion 27
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.hitherejoe.notifi"
-        minSdkVersion 'N'
-        targetSdkVersion 'N'
+        minSdkVersion 19
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -20,36 +19,36 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '24.0.0-alpha1'
-    final DAGGER_VERSION = '2.0.2'
+    final SUPPORT_LIBRARY_VERSION = '27.0.0'
+    final DAGGER_VERSION = '2.13'
 
     def daggerCompiler = "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 
     // App Dependencies
-    compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:percent:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:percent:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
 
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.1'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.jakewharton.timber:timber:4.1.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'io.reactivex:rxjava:1.2.10'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton.timber:timber:4.6.0'
+    implementation 'com.github.bumptech.glide:glide:4.2.0'
 
-    compile  "com.google.dagger:dagger:$DAGGER_VERSION"
+    implementation  "com.google.dagger:dagger:$DAGGER_VERSION"
     provided 'org.glassfish:javax.annotation:10.0-b28' //Required by Dagger2
 
     // APT dependencies
-    apt daggerCompiler
-    testApt daggerCompiler
-    androidTestApt daggerCompiler
+    annotationProcessor daggerCompiler
+    testAnnotationProcessor daggerCompiler
+    androidTestAnnotationProcessor daggerCompiler
 }

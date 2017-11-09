@@ -12,15 +12,15 @@ import com.hitherejoe.notifi.R;
 import com.hitherejoe.notifi.ui.base.BaseActivity;
 import com.hitherejoe.notifi.util.NotificationUtil;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MessageActivity extends BaseActivity {
 
-    @Bind(R.id.text_you_clicked)
+    @BindView(R.id.text_you_clicked)
     TextView mYouClickedText;
 
-    @Bind(R.id.text_message)
+    @BindView(R.id.text_message)
     TextView mMessageText;
 
     public static Intent getStartIntent(Context context) {
