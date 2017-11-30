@@ -47,8 +47,8 @@ dependencies {
     implementation  "com.google.dagger:dagger:$DAGGER_VERSION"
     provided 'org.glassfish:javax.annotation:10.0-b28' //Required by Dagger2
 
-    // APT dependencies
     annotationProcessor daggerCompiler
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     testAnnotationProcessor daggerCompiler
     androidTestAnnotationProcessor daggerCompiler
 }

@@ -15,9 +15,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
-
-    @Inject NotificationUtil mNotificationUtil;
-
     public static final String EXTRA_MESSAGE =
             "com.hitherejoe.notifi.ui.main.MessageActivity.EXTRA_MESSAGE";
 
@@ -32,52 +29,51 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        activityComponent().inject(this);
     }
 
     @OnClick(R.id.button_standard_notification)
     public void onButtonStandardNotificationClick() {
-        mNotificationUtil.showStandardNotification(this);
+        notificationUtil().showStandardNotification(this);
     }
 
     @OnClick(R.id.button_bundled_notification)
     public void onButtonBundledNotificationsClick() {
-        mNotificationUtil.showBundledNotifications(this);
+        notificationUtil().showBundledNotifications(this);
     }
 
     @OnClick(R.id.button_remote_input_notification)
     public void onButtonRemoteInputNotificationsClick() {
-        mNotificationUtil.showRemoteInputNotification(this);
+        notificationUtil().showRemoteInputNotification(this);
     }
 
     @OnClick(R.id.button_custom_content_view_notification)
     public void onButtonCustomContentViewNotificationClick() {
-        mNotificationUtil.showCustomContentViewNotification(this);
+        notificationUtil().showCustomContentViewNotification(this);
     }
 
     @OnClick(R.id.button_custom_content_big_view_notification)
     public void onButtonCustomBigContentViewNotificationClick() {
-        mNotificationUtil.showCustomBigContentViewNotification(this);
+        notificationUtil().showCustomBigContentViewNotification(this);
     }
 
     @OnClick(R.id.button_custom_normal_and_big_content_views_notification)
     public void onButtonCustomNormalAndBigContentViewsNotification() {
-        mNotificationUtil.showCustomBothContentViewNotification(this);
+        notificationUtil().showCustomBothContentViewNotification(this);
     }
 
     @OnClick(R.id.button_custom_media_content_view_notification)
     public void onButtonCustomMediaContentViewNotificationClick() {
-        mNotificationUtil.showCustomMediaViewNotification(this);
+        notificationUtil().showCustomMediaViewNotification(this);
     }
 
     @OnClick(R.id.button_heads_up_notification)
     public void onButtonHeadsUpNotificationClick() {
-        mNotificationUtil.showStandardHeadsUpNotification(this);
+        notificationUtil().showStandardHeadsUpNotification(this);
     }
 
     @OnClick(R.id.button_custom_layout_heads_up_notification)
     public void onButtonCustomLayoutHeadsUpNotificationClick() {
-        mNotificationUtil.showCustomLayoutHeadsUpNotification(this);
+        notificationUtil().showCustomLayoutHeadsUpNotification(this);
     }
 
     private CharSequence getMessageText(Intent intent) {

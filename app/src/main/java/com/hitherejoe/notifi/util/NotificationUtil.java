@@ -1,13 +1,19 @@
 package com.hitherejoe.notifi.util;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 import android.support.v4.content.ContextCompat;
@@ -32,8 +38,25 @@ public class NotificationUtil {
     public static final String KEY_TEXT_REPLY = "KEY_TEXT_REPLY";
     private static final String KEY_NOTIFICATION_GROUP = "KEY_NOTIFICATION_GROUP";
 
-    @Inject
-    public NotificationUtil() { }
+    private static final String NOTIFICATION_CHANNEL_ID = "NOTIFICATION_CHANNEL_ID";
+
+    public NotificationUtil() {  }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void initNotificationChannel(final @NonNull Context context) {
+        final NotificationChannel channel = new NotificationChannel(
+            NOTIFICATION_CHANNEL_ID,
+            "아이엠스쿨",
+            NotificationManager.IMPORTANCE_HIGH);
+        channel.setDescription("Notifi channel");
+        channel.setLightColor(context.getColor(R.color.primary));
+        channel.enableVibration(true);
+        channel.setVibrationPattern(new long[0]);
+
+      NotificationManager notificationManager =
+        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+      notificationManager.createNotificationChannel(channel);
+    }
 
     public void showStandardNotification(Context context) {
         NotificationCompat.Builder notification = createNotificationBuider(context,
@@ -42,7 +65,6 @@ public class NotificationUtil {
     }
 
     public void showBundledNotifications(Context context) {
-
         PendingIntent archiveIntent = PendingIntent.getActivity(context,
                 ARCHIVE_INTENT_ID,
                 getMessageReplyIntent(LABEL_ARCHIVE),
@@ -72,13 +94,17 @@ public class NotificationUtil {
         third.addAction(archiveAction);
 
         NotificationCompat.Builder fourth = createNotificationBuider(
-                context, "Fourth notification", "This one sin't a part of our group");
-        third.setGroup(KEY_NOTIFICATION_GROUP);
+                context, "Fourth notification", "This one isn't a part of our group");
+        fourth.setGroup(KEY_NOTIFICATION_GROUP);
 
         showNotification(context, first.build(), 0);
         showNotification(context, second.build(), 1);
         showNotification(context, third.build(), 2);
         showNotification(context, fourth.build(), 3);
+        showNotification(context, fourth.build(), 4);
+        showNotification(context, fourth.build(), 5);
+        showNotification(context, fourth.build(), 6);
+        showNotification(context, fourth.build(), 7);
     }
 
     public void showStandardHeadsUpNotification(Context context) {
@@ -123,9 +149,9 @@ public class NotificationUtil {
         notificationIntent.setData(Uri.parse("http://www.hitherejoe.com"));
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
-        Notification.Builder builder = createCustomNotificationBuilder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
         builder.setCustomContentView(remoteViews)
-                .setStyle(new Notification.DecoratedCustomViewStyle())
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setVibrate(new long[0])
                 .setContentIntent(contentIntent);
@@ -180,8 +206,9 @@ public class NotificationUtil {
                 "Custom notification", "This is a custom layout",
                 R.drawable.ic_priority_high_primary_24dp);
 
-        Notification.Builder builder = createCustomNotificationBuilder(context);
-        builder.setCustomContentView(remoteViews).setStyle(new Notification.DecoratedCustomViewStyle());
+        NotificationCompat.Builder builder = createCustomNotificationBuilder(context);
+        builder.setCustomContentView(remoteViews)
+          .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
         showNotification(context, builder.build(), 0);
     }
@@ -192,9 +219,9 @@ public class NotificationUtil {
                 "Custom notification", "This one is a little bigger!",
                 R.drawable.ic_priority_high_primary_24dp);
 
-        Notification.Builder builder = createCustomNotificationBuilder(context);
+        NotificationCompat.Builder builder = createCustomNotificationBuilder(context);
         builder.setCustomBigContentView(remoteViews)
-                .setStyle(new Notification.DecoratedCustomViewStyle());
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
         showNotification(context, builder.build(), 0);
     }
@@ -209,20 +236,23 @@ public class NotificationUtil {
                 "Custom notification", "This one is a little bigger",
                 R.drawable.ic_priority_high_primary_24dp);
 
-        Notification.Builder builder = createCustomNotificationBuilder(context);
+        NotificationCompat.Builder builder = createCustomNotificationBuilder(context);
         builder.setCustomContentView(remoteViews)
                 .setCustomBigContentView(bigRemoteView)
-                .setStyle(new Notification.DecoratedCustomViewStyle());
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
         showNotification(context, builder.build(), 0);
     }
 
+    @TargetApi(Build.VERSION_CODES.N)
     public void showCustomMediaViewNotification(Context context) {
         RemoteViews remoteViews = createRemoteViews(context, R.layout.notification_custom_content,
                 R.drawable.ic_phonelink_ring_primary_24dp, "Custom media notification",
                 "This is a custom media layout", R.drawable.ic_play_arrow_primary_24dp);
 
-        Notification.Builder builder = createCustomNotificationBuilder(context);
+        Notification.Builder builder = new Notification.Builder(context)
+          .setSmallIcon(R.drawable.ic_phonelink_ring_primary_24dp)
+          .setAutoCancel(true);
         builder.setCustomContentView(remoteViews)
                 .setStyle(new Notification.DecoratedMediaCustomViewStyle());
 
@@ -239,9 +269,9 @@ public class NotificationUtil {
         return remoteViews;
     }
 
-    public Notification.Builder createCustomNotificationBuilder(Context context) {
-        return new Notification.Builder(context)
-                .setSmallIcon(R.drawable.ic_phonelink_ring_primary_24dp)
+    public NotificationCompat.Builder createCustomNotificationBuilder(Context context) {
+        return new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_stat_notify_iamschool)
                 .setAutoCancel(true);
     }
 
@@ -249,13 +279,13 @@ public class NotificationUtil {
     public NotificationCompat.Builder createNotificationBuider(Context context,
                                                                String title, String message) {
         Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.me);
-        return new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_phonelink_ring_primary_24dp)
+                R.drawable.minkyu);
+        return new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_stat_notify_iamschool)
+                .setColor(ContextCompat.getColor(context, R.color.primary))
                 .setContentTitle(title)
                 .setContentText(message)
                 .setLargeIcon(largeIcon)
-                .setColor(ContextCompat.getColor(context, R.color.primary))
                 .setAutoCancel(true);
     }
 

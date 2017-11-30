@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.hitherejoe.notifi.injection.ApplicationContext;
+import com.hitherejoe.notifi.util.NotificationUtil;
 
 import javax.inject.Singleton;
 
@@ -34,4 +35,9 @@ public class ApplicationModule {
         return mApplication;
     }
 
+    @Provides
+    @Singleton
+    NotificationUtil provideNotificationUtil() {
+        return new NotificationUtil();
+    }
 }

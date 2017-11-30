@@ -5,17 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.hitherejoe.notifi.NotifiApplication;
-import com.hitherejoe.notifi.injection.component.ActivityComponent;
-import com.hitherejoe.notifi.injection.component.DaggerActivityComponent;
-import com.hitherejoe.notifi.injection.module.ActivityModule;
+import com.hitherejoe.notifi.util.NotificationUtil;
+
+import javax.inject.Inject;
 
 public class BaseActivity extends AppCompatActivity {
-
-    private ActivityComponent mActivityComponent;
+    @Inject NotificationUtil notificationUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((NotifiApplication)getApplication()).getComponent().inject(this);
     }
 
     @Override
@@ -29,14 +29,8 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public ActivityComponent activityComponent() {
-        if (mActivityComponent == null) {
-            mActivityComponent = DaggerActivityComponent.builder()
-                    .activityModule(new ActivityModule(this))
-                    .applicationComponent(NotifiApplication.get(this).getComponent())
-                    .build();
-        }
-        return mActivityComponent;
+    public NotificationUtil notificationUtil() {
+        return this.notificationUtil;
     }
 
 }
